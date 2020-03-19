@@ -19,7 +19,7 @@ public class Server3 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (isOff == true) {
+        if (isOff) {
             try {
                 socket.close();
             } catch (IOException e) {
@@ -36,38 +36,32 @@ public class Server3 {
     public void inputMethod () {
             try {
                 Scanner inputScanner = new Scanner(socket.getInputStream());
-                while (isOff != true) {
+                while (!isOff) {
                     String inMsg = inputScanner.nextLine();
-                    System.out.println("Input: " + inMsg);
                     if (inMsg.equals("/end")) {
                         System.out.println("Connection closed");
                         isOff = true;
                         break;
                     }
+                    System.out.println("Input: " + inMsg);
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
     }
 
     public void outputMethod () {
             try {
                 PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
                 Scanner outputScanner = new Scanner(System.in);
-                while (true) {
-                    if (isOff == true) {
-                        output.println("Connection closed");
-                    }
+                while (!isOff) {
                     String outMsg = outputScanner.nextLine();
                     output.println(outMsg);
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
     }
 
     public static void main (String[]args){
